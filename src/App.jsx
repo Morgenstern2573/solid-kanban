@@ -4,6 +4,7 @@ import { createSignal } from "solid-js";
 
 const [cards, setCards] = createSignal([]);
 const [cardBeingDragged, setCardBeingDragged] = createSignal(null);
+let cardCount = 0;
 
 function allowDrop(ev) {
   ev.preventDefault();
@@ -20,6 +21,24 @@ function drop(ev, lane) {
   c.push(newCard);
   setCards(Array.from(c));
 }
+
+function deleteCard(id) {
+  let c = cards();
+  const i = c.findIndex((val) => {
+    return val.id === id;
+  });
+  c.splice(i, 1);
+  setCards(Array.from(c));
+}
+
+function newCard(lane) {
+  let l = Array.from(cards());
+  cardCount += 1;
+  const id = cardCount;
+  l.push({ text: `I'm card: ${id}`, lane, id });
+  setCards(l);
+}
+
 function App() {
   const laneOne = () => {
     return cards().filter((val) => val.lane === 1);
@@ -36,6 +55,9 @@ function App() {
       on:CustomDragStart={(event) => {
         setCardBeingDragged(event.detail);
       }}
+      on:DeleteCard={(event) => {
+        deleteCard(event.detail);
+      }}
     >
       <div
         class={styles.lane}
@@ -50,10 +72,7 @@ function App() {
         <button
           type="button"
           on:click={() => {
-            let l = Array.from(cards());
-            const id = l.length + 1;
-            l.push({ text: `dummy text ${id}`, lane: 1, id });
-            setCards(l);
+            newCard(1);
           }}
         >
           Add card
@@ -77,10 +96,7 @@ function App() {
         <button
           type="button"
           on:click={() => {
-            let l = Array.from(cards());
-            const id = l.length + 1;
-            l.push({ text: `dummy text ${id}`, lane: 2, id });
-            setCards(l);
+            newCard(2);
           }}
         >
           Add card
@@ -104,10 +120,7 @@ function App() {
         <button
           type="button"
           on:click={() => {
-            let l = Array.from(cards());
-            const id = l.length + 1;
-            l.push({ text: `dummy text ${id}`, lane: 3, id });
-            setCards(l);
+            newCard(3);
           }}
         >
           Add card

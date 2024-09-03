@@ -3,7 +3,6 @@ function drag(event, id) {
   const evt = new CustomEvent("CustomDragStart", {
     detail: id,
     bubbles: true,
-    composed: true,
   });
   event.target.dispatchEvent(evt);
 }
@@ -18,6 +17,21 @@ function Card(props) {
       }}
     >
       {props.val ? props.val.text : "I am a card!"}
+
+      <button
+        onclick={[
+          (id, event) => {
+            const evt = new CustomEvent("DeleteCard", {
+              detail: id,
+              bubbles: true,
+            });
+            event.target.dispatchEvent(evt);
+          },
+          props.id,
+        ]}
+      >
+        del
+      </button>
     </div>
   );
 }

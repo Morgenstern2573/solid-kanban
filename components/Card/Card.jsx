@@ -13,7 +13,13 @@ function Card(props) {
       class={styles.Card}
       draggable="true"
       ondragstart={(event) => {
+        setTimeout(() => {
+          event.target.style.display = "none";
+        }, 100);
         drag(event, props.id);
+      }}
+      ondragend={(event) => {
+        event.target.style.display = "block";
       }}
     >
       {props.val ? props.val.text : "I am a card!"}

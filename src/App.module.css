@@ -3,8 +3,3 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
-
-.lane {
-  background-color: gray;
-  min-height: 500px;
-}

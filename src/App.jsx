@@ -28,11 +28,11 @@ function deleteCard(id) {
   setCards(Array.from(c));
 }
 
-function newCard(lane) {
+function newCard(lane, text) {
   let l = Array.from(cards());
   cardCount += 1;
   const id = cardCount;
-  l.push({ text: `I'm card: ${id}`, lane, id });
+  l.push({ text: text ? text : `I'm card: ${id}`, lane, id });
   setCards(l);
 }
 
@@ -57,7 +57,7 @@ function App() {
         deleteCard(event.detail);
       }}
       on:CreateNewCard={(event) => {
-        newCard(event.detail["laneID"]);
+        newCard(event.detail["laneID"], event.detail["cardName"]);
       }}
       on:CardDropped={(event) => {
         console.log("drop bubbled");
